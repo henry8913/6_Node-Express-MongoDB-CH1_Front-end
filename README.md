@@ -1,5 +1,5 @@
 
-# Blog Frontend
+# Blog Front-end
 
 Frontend React per un'applicazione blog moderna e responsive.
 
@@ -44,10 +44,9 @@ npm start
 
 L'applicazione sarà disponibile su http://localhost:3000
 
-## 📝 Licenza
-
-MIT License - Vedi il file LICENSE per i dettagli.
-
 ## 👤 Autore
+Progetto creato da [Henry](https://github.com/henry8913) per scopi didattici.
 
-[Henry](https://github.com/henry8913)
+## 📄 Licenza
+
+Questo progetto è rilasciato sotto licenza MIT. Vedi il file LICENSE per i dettagli.
