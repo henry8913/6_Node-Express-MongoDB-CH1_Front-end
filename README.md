@@ -3,6 +3,10 @@
 
 Frontend React per un'applicazione blog moderna e responsive.
 
+**Puoi vedere il sito live [Qui](https://6-node-express-mongo-db-ch-1-front-end.vercel.app/) 🌐**.
+
+## 🖼️ Mockup
+
 ![Screenshot dell'applicazione](src/assets/ss_main.png)
 
 ## 🚀 Caratteristiche
