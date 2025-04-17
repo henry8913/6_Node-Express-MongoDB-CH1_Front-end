@@ -72,7 +72,8 @@ const [authorAvatar, setAuthorAvatar] = useState("");
 
   return (
     <Container className="new-blog-container">
-      <Form className="mt-5" onSubmit={handleSubmit}>
+      <h2 className="text-center mb-4" style={{ color: '#2d3748', fontWeight: '800' }}>Crea Nuovo Post</h2>
+      <Form onSubmit={handleSubmit}>
         <Form.Group controlId="blog-form" className="mt-3">
           <Form.Label>Titolo</Form.Label>
           <Form.Control 

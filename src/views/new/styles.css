@@ -1,10 +1,70 @@
 .new-blog-container {
-  display: flex;
-  flex-direction: column;
-  margin-top: 100px;
+  max-width: 1024px !important;
+  padding: 2rem;
+  margin: 2rem auto;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
-.new-blog-content {
-  height: 400px;
-  margin-bottom: 80px;
+.new-blog-container form {
+  margin-top: 0 !important;
+}
+
+.form-label {
+  font-weight: 600;
+  color: #2d3748;
+  margin-bottom: 0.5rem;
+}
+
+.form-control {
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: #4299e1;
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
+}
+
+.wrapper-class {
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  margin-top: 0.5rem;
+}
+
+.editor-class {
+  padding: 1rem;
+  min-height: 300px;
+}
+
+.toolbar-class {
+  border-bottom: 2px solid #e2e8f0 !important;
+  border-radius: 8px 8px 0 0;
+  background: #f7fafc;
+}
+
+.btn-dark {
+  background-color: #00d66f;
+  border: 2px solid #2d3748;
+  color: black;
+  padding: 0.75rem 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.btn-dark:hover {
+  background-color: #1a202c;
+  transform: translateY(-1px);
+}
+
+.btn-outline-dark {
+  border: 2px solid #2d3748;
+  padding: 0.75rem 1.5rem;
+}
+
+.btn-outline-dark:hover {
+  background-color: red;
+  transform: translateY(-1px);
 }

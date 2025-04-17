@@ -17,12 +17,14 @@ const Home = props => {
             placeholder="Cerca..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+            style={{ height: '48px' }}
           />
         </Col>
         <Col md={4}>
           <Form.Select 
             value={searchType}
             onChange={(e) => setSearchType(e.target.value)}
+            style={{ height: '48px' }}
           >
             <option value="title">Cerca per titolo</option>
             <option value="author">Cerca per autore</option>
