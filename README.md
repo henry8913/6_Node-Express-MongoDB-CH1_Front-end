@@ -5,9 +5,7 @@ Frontend React per un'applicazione blog moderna e responsive.
 
 **Puoi vedere il sito live [Qui](https://6-node-express-mongo-db-ch-1-front-end.vercel.app/) 🌐**.
 
-## 🖼️ Mockup
-
-![Screenshot dell'applicazione](src/assets/ss_main.png)
+![Cover del progetto](src/assets/cover.jpg)
 
 ## 🚀 Caratteristiche
 
@@ -35,6 +33,10 @@ Frontend React per un'applicazione blog moderna e responsive.
 - React Router DOM
 - Draft.js per l'editor di testo ricco
 - React Icons
+
+## 🖼️ Mockup
+
+![Screenshot dell'applicazione](src/assets/ss_main.png)
 
 ## 📦 Installazione
 
