@@ -4,13 +4,21 @@ import { Col, Row } from "react-bootstrap";
 import { API_URL } from "../../../config/config";
 import BlogItem from "../blog-item/BlogItem";
 
-const BlogList = () => {
+const BlogList = ({ searchQuery, searchType }) => {
     const [posts, setPosts] = useState([]);
 
     useEffect(() => {
         const fetchPosts = async () => {
             try {
-                const response = await fetch(`${API_URL}/posts`);
+                let url = `${API_URL}/posts`;
+                if (searchQuery) {
+                    if (searchType === 'title') {
+                        url += `?title=${searchQuery}`;
+                    } else if (searchType === 'author') {
+                        url += `?author=${searchQuery}`;
+                    }
+                }
+                const response = await fetch(url);
                 const data = await response.json();
                 setPosts(data);
             } catch (error) {
@@ -19,7 +27,7 @@ const BlogList = () => {
         };
 
         fetchPosts();
-    }, []);
+    }, [searchQuery, searchType]);
 
     return (
         <Row>

@@ -12,18 +12,28 @@ Frontend React per un'applicazione blog moderna e responsive.
 ## 🚀 Caratteristiche
 
 - Interfaccia utente moderna e reattiva
-- Sistema di gestione articoli
-- Editor di testo ricco con Draft.js
-- Sistema di like per gli articoli
-- Gestione autori e avatar
-- Design responsive
+- Sistema completo di gestione articoli
+  - Visualizzazione di tutti i post
+  - Ricerca dei post per titolo
+  - Filtro dei post per autore
+  - Creazione di nuovi post con editor ricco
+  - Modifica e eliminazione dei post esistenti
+- Sistema di autori
+  - Visualizzazione profilo autore
+  - Lista dei post per autore
+  - Avatar personalizzati
+- Design completamente responsive
+- Sistema di ricerca avanzato
+  - Ricerca per titolo
+  - Ricerca per autore
+  - Risultati in tempo reale
 
 ## 🛠 Tecnologie
 
 - React 18
 - React Bootstrap
 - React Router DOM
-- Draft.js
+- Draft.js per l'editor di testo ricco
 - React Icons
 
 ## 📦 Installazione
