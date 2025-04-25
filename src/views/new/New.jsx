@@ -12,45 +12,66 @@ import { useNavigate } from "react-router-dom";
 const NewBlogPost = () => {
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("Frontend");
-  const [cover, setCover] = useState("");
+  const [coverFile, setCoverFile] = useState(null);
+  const [avatarFile, setAvatarFile] = useState(null);
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
-const [authorName, setAuthorName] = useState("");
-const [authorAvatar, setAuthorAvatar] = useState("");
+  const [authorName, setAuthorName] = useState("");
   const navigate = useNavigate();
+
+  const uploadImage = async (file, type) => {
+    const formData = new FormData();
+    formData.append('image', file);
+    
+    const endpoint = type === 'cover' 
+      ? `${API_URL}/posts/cover` 
+      : `${API_URL}/authors/avatar`;
+    
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      body: formData
+    });
+    
+    const data = await response.json();
+    return data.url;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    const content = draftToHtml(convertToRaw(editorState.getCurrentContent()));
-    
-    // Ottieni l'ultimo ID dai post esistenti e incrementa di 1
-    const response = await fetch(`${API_URL}/posts`);
-    const posts = await response.json();
-    const maxId = Math.max(...posts.map(post => post._id), 0);
-    const newId = maxId + 1;
-
-    const newPost = {
-      _id: newId,
-      category,
-      title,
-      cover,
-      readTime: {
-        value: 5,
-        unit: "minute"
-      },
-      author: {
-        name: authorName,
-        avatar: authorAvatar
-      },
-      content,
-      createdAt: new Date().toLocaleDateString('en-US', {
-        day: '2-digit',
-        month: 'short',
-        year: 'numeric'
-      })
-    };
-
     try {
+      // Upload images to Cloudinary
+      const coverUrl = coverFile ? await uploadImage(coverFile, 'cover') : '';
+      const avatarUrl = avatarFile ? await uploadImage(avatarFile, 'avatar') : '';
+      
+      const content = draftToHtml(convertToRaw(editorState.getCurrentContent()));
+      
+      // Get the last ID and increment
+      const response = await fetch(`${API_URL}/posts`);
+      const posts = await response.json();
+      const maxId = Math.max(...posts.map(post => post._id), 0);
+      const newId = maxId + 1;
+
+      const newPost = {
+        _id: newId,
+        category,
+        title,
+        cover: coverUrl,
+        readTime: {
+          value: 5,
+          unit: "minute"
+        },
+        author: {
+          name: authorName,
+          avatar: avatarUrl
+        },
+        content,
+        createdAt: new Date().toLocaleDateString('en-US', {
+          day: '2-digit',
+          month: 'short',
+          year: 'numeric'
+        })
+      };
+
       const postResponse = await fetch(`${API_URL}/posts`, {
         method: 'POST',
         headers: {
@@ -72,7 +93,7 @@ const [authorAvatar, setAuthorAvatar] = useState("");
 
   return (
     <Container className="new-blog-container">
-      <h2 className="text-center mb-4" style={{ color: '#2d3748', fontWeight: '800' }}>Crea Nuovo Post</h2>
+      <h2 className="text-center mb-4">Crea Nuovo Post</h2>
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="blog-form" className="mt-3">
           <Form.Label>Titolo</Form.Label>
@@ -102,34 +123,31 @@ const [authorAvatar, setAuthorAvatar] = useState("");
         </Form.Group>
 
         <Form.Group controlId="blog-cover" className="mt-3">
-          <Form.Label>URL Immagine di Copertina</Form.Label>
+          <Form.Label>Immagine di Copertina</Form.Label>
           <Form.Control 
-            size="lg" 
-            placeholder="https://example.com/image.jpg"
-            value={cover}
-            onChange={(e) => setCover(e.target.value)}
+            type="file"
+            onChange={(e) => setCoverFile(e.target.files[0])}
             required
           />
         </Form.Group>
 
-        <Form.Group controlId="blog-author-name" className="mt-3">
+        <Form.Group controlId="blog-author" className="mt-3">
           <Form.Label>Nome Autore</Form.Label>
           <Form.Control 
             size="lg" 
-            placeholder="Il tuo nome"
+            placeholder="Nome Autore"
             value={authorName}
             onChange={(e) => setAuthorName(e.target.value)}
             required
           />
         </Form.Group>
 
-        <Form.Group controlId="blog-author-avatar" className="mt-3">
-          <Form.Label>URL Avatar Autore</Form.Label>
+        <Form.Group controlId="blog-avatar" className="mt-3">
+          <Form.Label>Avatar Autore</Form.Label>
           <Form.Control 
-            size="lg" 
-            placeholder="https://example.com/avatar.jpg"
-            value={authorAvatar}
-            onChange={(e) => setAuthorAvatar(e.target.value)}
+            type="file"
+            name="image"
+            onChange={(e) => setAvatarFile(e.target.files[0])}
             required
           />
         </Form.Group>
@@ -153,10 +171,10 @@ const [authorAvatar, setAuthorAvatar] = useState("");
             onClick={() => {
               setTitle("");
               setCategory("Frontend");
-              setCover("");
+              setCoverFile(null);
+              setAvatarFile(null);
               setEditorState(EditorState.createEmpty());
               setAuthorName("");
-              setAuthorAvatar("");
             }}
           >
             Reset

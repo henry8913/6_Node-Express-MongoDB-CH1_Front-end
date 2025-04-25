@@ -1,3 +1,2 @@
 
-
-export const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8913";
+export const API_URL = process.env.REACT_APP_API_URL || "http://0.0.0.0:8913";
