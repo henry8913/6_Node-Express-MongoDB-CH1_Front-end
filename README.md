@@ -15,9 +15,11 @@ Frontend React per un'applicazione blog moderna e responsive.
   - Ricerca dei post per titolo
   - Filtro dei post per autore
   - Creazione di nuovi post con editor ricco
+  - Upload immagini integrato
   - Modifica e eliminazione dei post esistenti
 - Sistema di autori
   - Visualizzazione profilo autore
+  - Upload e gestione avatar
   - Lista dei post per autore
   - Avatar personalizzati
 - Design completamente responsive
@@ -33,6 +35,7 @@ Frontend React per un'applicazione blog moderna e responsive.
 - React Router DOM
 - Draft.js per l'editor di testo ricco
 - React Icons
+- Cloudinary per gestione immagini
 
 ## 🖼️ Mockup
 
@@ -49,7 +52,7 @@ npm install
 Crea un file `.env` nella root del progetto:
 
 ```
-REACT_APP_API_URL=http://localhost:8913
+REACT_APP_API_URL=http://0.0.0.0:8913
 ```
 
 ## 🚀 Avvio
@@ -58,7 +61,7 @@ REACT_APP_API_URL=http://localhost:8913
 npm start
 ```
 
-L'applicazione sarà disponibile su http://localhost:3000
+L'applicazione sarà disponibile su http://0.0.0.0:3000
 
 ## 👤 Autore
 Progetto creato da [Henry](https://github.com/henry8913) per scopi didattici.
