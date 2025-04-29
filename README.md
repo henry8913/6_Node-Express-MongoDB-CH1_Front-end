@@ -1,4 +1,3 @@
-
 # Blog Front-end
 
 Frontend React per un'applicazione blog moderna e responsive.
@@ -17,6 +16,10 @@ Frontend React per un'applicazione blog moderna e responsive.
   - Creazione di nuovi post con editor ricco
   - Upload immagini integrato
   - Modifica e eliminazione dei post esistenti
+  - Sistema di commenti interattivo
+    - Aggiunta di nuovi commenti
+    - Visualizzazione commenti per post
+    - Modifica e eliminazione commenti
 - Sistema di autori
   - Visualizzazione profilo autore
   - Upload e gestione avatar
