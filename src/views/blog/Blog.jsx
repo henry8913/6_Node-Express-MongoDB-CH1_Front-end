@@ -5,6 +5,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { API_URL } from "../../config/config";
 import BlogAuthor from "../../components/blog/blog-author/BlogAuthor";
 import BlogLike from "../../components/likes/BlogLike";
+import CommentForm from "../../components/comments/CommentForm";
+import CommentList from "../../components/comments/CommentList";
 import "./styles.css";
 
 const Blog = () => {
@@ -57,6 +59,16 @@ const Blog = () => {
         </div>
 
         <div dangerouslySetInnerHTML={{ __html: blog.content }}></div>
+      <div className="blog-comments-section">
+          <h3>Commenti</h3>
+          <CommentForm postId={params.id} onCommentAdded={(newComment) => {
+            setBlog({
+              ...blog,
+              comments: [...(blog.comments || []), newComment]
+            });
+          }} />
+          <CommentList comments={blog.comments || []} />
+        </div>
       </Container>
     </div>
   );
