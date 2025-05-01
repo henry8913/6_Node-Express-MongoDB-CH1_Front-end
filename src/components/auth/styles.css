@@ -1,0 +1,52 @@
+
+.auth-container {
+  max-width: 1024px;
+  margin: 120px auto 50px;
+  padding: 2rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  background-color: white;
+}
+
+.auth-container form {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.auth-container h2 {
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #1a1a1a;
+  font-family: 'Ubuntu', sans-serif;
+}
+
+.auth-container .form-control {
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.auth-container .form-control:focus {
+  border-color: #0097FB;
+  box-shadow: 0 0 0 0.2rem rgba(0, 151, 251, 0.25);
+}
+
+.auth-container .btn-primary {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #0097FB;
+  border: none;
+  border-radius: 4px;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.auth-container .btn-primary:hover {
+  background-color: #0084db;
+}
+
+.auth-container .alert {
+  margin-bottom: 1.5rem;
+}
