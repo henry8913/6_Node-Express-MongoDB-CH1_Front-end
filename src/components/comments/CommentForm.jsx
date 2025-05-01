@@ -1,24 +1,33 @@
 
 import React, { useState } from 'react';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Alert } from 'react-bootstrap';
 import './styles.css';
+import { API_URL } from '../../config/config';
 
 const CommentForm = ({ postId, onCommentAdded }) => {
   const [comment, setComment] = useState('');
-  const [author, setAuthor] = useState('');
-
+  const [error, setError] = useState('');
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const token = localStorage.getItem('token');
+    const user = JSON.parse(localStorage.getItem('user'));
     
+    if (!token || !user) {
+      setError('Devi effettuare il login per commentare');
+      return;
+    }
+
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/blogPosts/${postId}`, {
+      const response = await fetch(`${API_URL}/blogPosts/${postId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({
           text: comment,
-          author: author,
+          author: user.name,
           createdAt: new Date().toLocaleDateString()
         }),
       });
@@ -27,24 +36,18 @@ const CommentForm = ({ postId, onCommentAdded }) => {
         const newComment = await response.json();
         onCommentAdded(newComment);
         setComment('');
-        setAuthor('');
+        setError('');
+      } else {
+        setError('Errore durante l\'invio del commento');
       }
     } catch (error) {
-      console.error('Error adding comment:', error);
+      setError('Errore durante l\'invio del commento');
     }
   };
 
   return (
     <Form onSubmit={handleSubmit} className="comment-form">
-      <Form.Group className="mb-3">
-        <Form.Label>Nome</Form.Label>
-        <Form.Control
-          type="text"
-          value={author}
-          onChange={(e) => setAuthor(e.target.value)}
-          required
-        />
-      </Form.Group>
+      {error && <Alert variant="danger">{error}</Alert>}
       <Form.Group className="mb-3">
         <Form.Label>Commento</Form.Label>
         <Form.Control

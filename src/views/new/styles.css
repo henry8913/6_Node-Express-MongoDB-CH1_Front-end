@@ -5,6 +5,8 @@
   background: white;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  margin-top: 50px;
+  margin-bottom: 50px;
 }
 
 .new-blog-container form {
@@ -12,9 +14,9 @@
 }
 
 .form-label {
-  font-weight: 600;
+  font-weight: 500;
   color: #2d3748;
-  margin-bottom: 0.5rem;
+  margin-bottom: 8px;
 }
 
 .form-control {
@@ -33,18 +35,29 @@
   border: 2px solid #e2e8f0;
   border-radius: 8px;
   margin-top: 0.5rem;
+  margin-bottom: 20px;
 }
 
 .editor-class {
   padding: 1rem;
-  min-height: 300px;
+  min-height: 200px;
+  background-color: white;
+  border: 1px solid #ddd;
 }
 
 .toolbar-class {
   border-bottom: 2px solid #e2e8f0 !important;
   border-radius: 8px 8px 0 0;
   background: #f7fafc;
+  border: 1px solid #ddd !important;
+  margin-bottom: 0 !important;
 }
+
+.blog-form input,
+.blog-form select {
+  margin-bottom: 15px;
+}
+
 
 .btn-dark {
   background-color: #00d66f;

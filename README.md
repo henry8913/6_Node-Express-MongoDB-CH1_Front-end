@@ -9,6 +9,10 @@ Frontend React per un'applicazione blog moderna e responsive.
 ## 🚀 Caratteristiche
 
 - Interfaccia utente moderna e reattiva
+- Sistema di autenticazione utenti
+  - Login sicuro con JWT
+  - Registrazione nuovo utente
+  - Protezione delle funzionalità sensibili
 - Sistema completo di gestione articoli
   - Visualizzazione di tutti i post
   - Ricerca dei post per titolo

@@ -1,11 +1,21 @@
+
 import React, { useState, useEffect } from "react";
-import { Button, Container, Navbar, Nav } from "react-bootstrap";
+import { Container, Navbar, Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import "./styles.css";
 
-const NavBar = (props) => {
+const NavBar = () => {
   const [user, setUser] = useState(null);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -27,65 +37,58 @@ const NavBar = (props) => {
     window.addEventListener('storage', handleStorage);
     return () => window.removeEventListener('storage', handleStorage);
   }, []);
+
   return (
-    <Navbar expand="lg" className="blog-navbar" fixed="top">
-      <Container className="justify-content-between">
-        <Navbar.Brand as={Link} to="/">
+    <Navbar expand="lg" className={`blog-navbar ${scrolled ? 'scrolled' : ''}`} fixed="top">
+      <Container>
+        <Navbar.Brand as={Link} to="/" className="brand-container">
           <img className="blog-navbar-brand" alt="logo" src={logo} />
         </Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Toggle aria-controls="basic-navbar-nav">
+          <span className="navbar-toggler-icon"></span>
+        </Navbar.Toggle>
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="ms-auto">
+          <Nav className="ms-auto nav-links">
             <Link to="/" className="nav-link">
-              Home
+              <i className="bi bi-house-door"></i>
+              <span>Home</span>
             </Link>
             <Link to="/new" className="nav-link">
-              New Post
+              <i className="bi bi-plus-circle"></i>
+              <span>New Post</span>
             </Link>
             {!user ? (
-              <>
-                <Link to="/login" className="nav-link">
-                  Login
+              <div className="auth-buttons">
+                <Link to="/login" className="nav-link login-btn">
+                  <i className="bi bi-box-arrow-in-right"></i>
+                  <span>Login</span>
                 </Link>
-                <Link to="/register" className="nav-link">
-                  Register
+                <Link to="/register" className="nav-link register-btn">
+                  <i className="bi bi-person-plus"></i>
+                  <span>Register</span>
                 </Link>
-              </>
+              </div>
             ) : (
-              <div className="d-flex align-items-center">
-                <div className="user-info me-3">
-                  <i className="bi bi-person-circle me-2"></i>
-                  {user?.name}
+              <div className="user-section">
+                <div className="user-info">
+                  <i className="bi bi-person-circle"></i>
+                  <span>{user.name}</span>
                 </div>
                 <Nav.Link
-                  className="logout-link"
+                  className="logout-btn"
                   onClick={() => {
                     localStorage.removeItem("token");
                     localStorage.removeItem("user");
                     setUser(null);
                   }}
                 >
-                  Logout
+                  <i className="bi bi-box-arrow-right"></i>
+                  <span>Logout</span>
                 </Nav.Link>
               </div>
             )}
           </Nav>
         </Navbar.Collapse>
-        {/* 
-          <Button as={Link} to="/new" className="blog-navbar-add-button bg-dark" size="lg">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              className="bi bi-plus-lg"
-              viewBox="0 0 16 16"
-            >
-              <path d="M8 0a1 1 0 0 1 1 1v6h6a1 1 0 1 1 0 2H9v6a1 1 0 1 1-2 0V9H1a1 1 0 0 1 0-2h6V1a1 1 0 0 1 1-1z" />
-            </svg>
-          Nuovo Articolo
-        </Button>
-        */}
       </Container>
     </Navbar>
   );

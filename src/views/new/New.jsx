@@ -1,6 +1,6 @@
 
 import React, { useState } from "react";
-import { Button, Container, Form } from "react-bootstrap";
+import { Button, Container, Form, Alert } from "react-bootstrap";
 import { Editor } from 'react-draft-wysiwyg';
 import { EditorState, convertToRaw } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
@@ -16,6 +16,7 @@ const NewBlogPost = () => {
   const [avatarFile, setAvatarFile] = useState(null);
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [authorName, setAuthorName] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const uploadImage = async (file, type) => {
@@ -72,10 +73,20 @@ const NewBlogPost = () => {
         })
       };
 
+      const token = localStorage.getItem('token');
+      if (!token) {
+        setError('Per pubblicare un nuovo post devi prima effettuare il login');
+        setTimeout(() => {
+          navigate('/login');
+        }, 2000);
+        return;
+      }
+
       const postResponse = await fetch(`${API_URL}/posts`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify(newPost)
       });
@@ -94,6 +105,7 @@ const NewBlogPost = () => {
   return (
     <Container className="new-blog-container">
       <h2 className="text-center mb-4">Crea Nuovo Post</h2>
+      {error && <Alert variant="danger" className="mb-4">{error}</Alert>}
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="blog-form" className="mt-3">
           <Form.Label>Titolo</Form.Label>
