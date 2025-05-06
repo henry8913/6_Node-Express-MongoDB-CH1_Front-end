@@ -1,7 +1,7 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Form, Button, Alert } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
 import { API_URL } from '../../config/config';
 import "./styles.css";
 
@@ -11,6 +11,17 @@ const Register = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const googleProfile = params.get('googleProfile');
+    if (googleProfile) {
+      const profile = JSON.parse(decodeURIComponent(googleProfile));
+      setName(profile.name);
+      setEmail(profile.email);
+    }
+  }, [location]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

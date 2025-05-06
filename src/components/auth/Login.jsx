@@ -10,6 +10,10 @@ const Login = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
+  const handleGoogleLogin = () => {
+    window.location.href = `${API_URL}/auth/google`;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -35,6 +39,31 @@ const Login = () => {
       setError("Errore durante il login");
     }
   };
+
+  return (
+    <div className="auth-container">
+      <form onSubmit={handleSubmit} className="auth-form">
+        <h2>Login</h2>
+        {error && <div className="error">{error}</div>}
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <button type="submit">Login</button>
+        <button type="button" onClick={handleGoogleLogin} className="google-btn">
+          Login con Google
+        </button>
+      </form>
+    </div>
+  );
 
   return (
     <div className="auth-container">
