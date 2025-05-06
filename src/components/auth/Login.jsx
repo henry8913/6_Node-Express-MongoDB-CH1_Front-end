@@ -42,31 +42,6 @@ const Login = () => {
 
   return (
     <div className="auth-container">
-      <form onSubmit={handleSubmit} className="auth-form">
-        <h2>Login</h2>
-        {error && <div className="error">{error}</div>}
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button type="submit">Login</button>
-        <button type="button" onClick={handleGoogleLogin} className="google-btn">
-          Login con Google
-        </button>
-      </form>
-    </div>
-  );
-
-  return (
-    <div className="auth-container">
       <h2>Login</h2>
       {error && <Alert variant="danger">{error}</Alert>}
       <Form onSubmit={handleSubmit}>
@@ -90,8 +65,16 @@ const Login = () => {
             required
           />
         </Form.Group>
-        <Button variant="primary" type="submit" className="mt-2">
+        <Button variant="primary" type="submit" className="mt-2 w-100">
           Accedi
+        </Button>
+        <Button 
+          variant="outline-primary" 
+          type="button" 
+          onClick={handleGoogleLogin} 
+          className="mt-2 w-100"
+        >
+          Login con Google
         </Button>
       </Form>
     </div>

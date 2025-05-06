@@ -11,7 +11,8 @@ Frontend React per un'applicazione blog moderna e responsive.
 - Interfaccia utente moderna e reattiva
 - Sistema di autenticazione utenti
   - Login sicuro con JWT
-  - Registrazione nuovo utente
+  - Autenticazione con Google
+  - Registrazione nuovo utente (locale e Google)
   - Protezione delle funzionalità sensibili
 - Sistema completo di gestione articoli
   - Visualizzazione di tutti i post
