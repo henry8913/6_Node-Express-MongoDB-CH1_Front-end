@@ -67,7 +67,18 @@ const Blog = () => {
               comments: [...(blog.comments || []), newComment]
             });
           }} />
-          <CommentList comments={blog.comments || []} />
+          <CommentList 
+            comments={blog.comments || []} 
+            postId={params.id}
+            onCommentUpdate={(commentId, updatedComment) => {
+              setBlog(prevBlog => ({
+                ...prevBlog,
+                comments: updatedComment 
+                  ? prevBlog.comments.map(c => c._id === commentId ? updatedComment : c)
+                  : prevBlog.comments.filter(c => c._id !== commentId)
+              }));
+            }}
+          />
         </div>
       </Container>
     </div>

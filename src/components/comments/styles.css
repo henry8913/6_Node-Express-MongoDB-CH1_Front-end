@@ -30,3 +30,13 @@
   border: 1px solid #ddd;
   border-radius: 8px;
 }
+
+.comment-actions {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.edit-comment-input {
+  margin: 0.5rem 0;
+}
