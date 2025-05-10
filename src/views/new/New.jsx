@@ -1,5 +1,4 @@
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Container, Form, Alert } from "react-bootstrap";
 import { Editor } from 'react-draft-wysiwyg';
 import { EditorState, convertToRaw } from 'draft-js';
@@ -7,7 +6,9 @@ import draftToHtml from 'draftjs-to-html';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import "./styles.css";
 import { API_URL } from "../../config/config";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import htmlToDraft from 'html-to-draftjs';
+import { ContentState } from 'draft-js';
 
 const NewBlogPost = () => {
   const [title, setTitle] = useState("");
@@ -17,40 +18,108 @@ const NewBlogPost = () => {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [authorName, setAuthorName] = useState("");
   const [error, setError] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
+  const [existingPostId, setExistingPostId] = useState(null);
   const navigate = useNavigate();
+  const params = useParams();
+
+  useEffect(() => {
+    const fetchPost = async () => {
+      if (params.id) {
+        try {
+          const response = await fetch(`${API_URL}/posts/${params.id}`);
+          const post = await response.json();
+          setTitle(post.title);
+          setCategory(post.category);
+          setAuthorName(post.author.name);
+          setExistingPostId(post._id);
+          setIsEditing(true);
+
+          // Convert HTML content to EditorState
+          const contentBlock = htmlToDraft(post.content);
+          if (contentBlock) {
+            const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
+            setEditorState(EditorState.createWithContent(contentState));
+          }
+        } catch (error) {
+          console.error('Error fetching post:', error);
+          navigate('/404');
+        }
+      }
+    };
+    fetchPost();
+  }, [params.id, navigate]);
 
   const uploadImage = async (file, type) => {
     const formData = new FormData();
     formData.append('image', file);
-    
+
     const endpoint = type === 'cover' 
       ? `${API_URL}/posts/cover` 
       : `${API_URL}/authors/avatar`;
-    
+
     const response = await fetch(endpoint, {
       method: 'POST',
       body: formData
     });
-    
+
     const data = await response.json();
     return data.url;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     try {
-      // Upload images to Cloudinary
-      const coverUrl = coverFile ? await uploadImage(coverFile, 'cover') : '';
-      const avatarUrl = avatarFile ? await uploadImage(avatarFile, 'avatar') : '';
-      
       const content = draftToHtml(convertToRaw(editorState.getCurrentContent()));
-      
-      // Get the last ID and increment
-      const response = await fetch(`${API_URL}/posts`);
-      const posts = await response.json();
-      const maxId = Math.max(...posts.map(post => post._id), 0);
-      const newId = maxId + 1;
+      const token = localStorage.getItem('token');
+
+      if (!token) {
+        setError('Per pubblicare un nuovo post devi prima effettuare il login');
+        setTimeout(() => {
+          navigate('/login');
+        }, 2000);
+        return;
+      }
+
+      let coverUrl = '';
+      let avatarUrl = '';
+
+      if (coverFile) {
+        coverUrl = await uploadImage(coverFile, 'cover');
+      }
+      if (avatarFile) {
+        avatarUrl = await uploadImage(avatarFile, 'avatar');
+      }
+
+      const postData = {
+        category,
+        title,
+        cover: coverUrl || (isEditing ? undefined : ''),
+        readTime: {
+          value: 5,
+          unit: "minute"
+        },
+        author: {
+          name: authorName,
+          avatar: avatarUrl || (isEditing ? undefined : '')
+        },
+        content
+      };
+
+      if (!isEditing) {
+        const response = await fetch(`${API_URL}/posts`);
+        const posts = await response.json();
+        const maxId = Math.max(...posts.map(post => post._id), 0);
+        postData._id = maxId + 1;
+        postData.createdAt = new Date().toLocaleDateString('en-US', {
+          day: '2-digit',
+          month: 'short',
+          year: 'numeric'
+        });
+      }
+
+      const newId = Math.floor(Math.random() * 100000);
 
       const newPost = {
         _id: newId,
@@ -73,22 +142,16 @@ const NewBlogPost = () => {
         })
       };
 
-      const token = localStorage.getItem('token');
-      if (!token) {
-        setError('Per pubblicare un nuovo post devi prima effettuare il login');
-        setTimeout(() => {
-          navigate('/login');
-        }, 2000);
-        return;
-      }
+      const url = isEditing ? `${API_URL}/posts/${existingPostId}` : `${API_URL}/posts`;
+      const method = isEditing ? 'PUT' : 'POST';
 
-      const postResponse = await fetch(`${API_URL}/posts`, {
-        method: 'POST',
+      const postResponse = await fetch(url, {
+        method,
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify(newPost)
+        body: JSON.stringify(postData)
       });
 
       if (postResponse.ok) {

@@ -24,7 +24,12 @@ Frontend React per un'applicazione blog moderna e responsive.
   - Sistema di commenti interattivo
     - Aggiunta di nuovi commenti
     - Visualizzazione commenti per post
-    - Modifica e eliminazione commenti
+    - Modifica e eliminazione dei propri commenti
+    - Interfaccia utente intuitiva per la gestione dei commenti
+- Gestione post personalizzata
+    - Interfaccia dedicata per modifica/eliminazione dei propri post
+    - Controlli di autorizzazione visivi
+    - Conferma prima dell'eliminazione dei post
 - Sistema di autori
   - Visualizzazione profilo autore
   - Upload e gestione avatar
@@ -60,7 +65,12 @@ npm install
 Crea un file `.env` nella root del progetto:
 
 ```
-REACT_APP_API_URL=http://0.0.0.0:8913
+REACT_APP_API_URL= # URL del backend server
+SENDGRID_API_KEY= # Chiave API di SendGrid
+ADMIN_EMAIL= # Email per notifiche dei nuovi post
+FRONTEND_URL= # URL del frontend
+GOOGLE_CLIENT_ID= # ID del client Google per OAuth 2.0
+GOOGLE_CLIENT_SECRET= # Segreto del client Google per OAuth 2.0
 ```
 
 ## 🚀 Avvio

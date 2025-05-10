@@ -16,6 +16,7 @@ function App() {
         <Route path="/" exact element={<Home />} />
         <Route path="/blog/:id" element={<Blog />} />
         <Route path="/new" element={<NewBlogPost />} />
+          <Route path="/edit/:id" element={<NewBlogPost />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Routes>
